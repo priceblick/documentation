@@ -1,2 +1,0 @@
-# documentation
-Priceblick Public Documentation
