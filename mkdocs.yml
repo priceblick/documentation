@@ -43,7 +43,7 @@ theme:
     - search.suggest
     - toc.follow
   
-  copyright: Copyright &copy; 2024 RACKSPACE TECHNOLOGY
+  copyright: Copyright &copy; 2024 Priceblick Inc
 
 extra_css:
   - stylesheets/extra.css
