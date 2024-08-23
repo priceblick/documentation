@@ -52,11 +52,19 @@ extra_css:
 nav:
   - Welcome: index.md
   - Priceblick:
-    - Dashboard: priceblick/PriceBlick_Documentation.md
+    - Overview: PriceBlick_Overview.md
+    - Trading: Trading.md
+    - Discover: Discover.md
+    - Manage: Manage.md
+    - Chat: Chat.md
+  - Contact:
+    - Contact: Contact.md
   
 
 markdown_extensions:
   - admonition
+  - attr_list
+  - md_in_html
   - pymdownx.details
   - pymdownx.highlight:
       anchor_linenums: true
@@ -65,3 +73,6 @@ markdown_extensions:
   - pymdownx.inlinehilite
   - pymdownx.snippets
   - pymdownx.superfences
+  - pymdownx.emoji:
+      emoji_index: !!python/name:material.extensions.emoji.twemoji
+      emoji_generator: !!python/name:material.extensions.emoji.to_svg
