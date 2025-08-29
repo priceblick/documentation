@@ -1,6 +1,6 @@
 # API Documentation
 
-This API provides endpoints for retrieving and managing price and market data for various energy products, including **NCG EUR**, **NCG CHF**, **TTF EUR**, and **Peg Nord EUR**. The API supports both `GET` and `POST` methods for data retrieval and saving, with authentication handled via `DataTokenAuthHandler`, `TokenAuthHandler`, and `AuthHandler` depending on the endpoint.
+This API provides endpoints for retrieving and managing price and market data for various energy products, including **NCG EUR**, **NCG CHF**, **TTF EUR**, and **PEG EUR**. The API supports both `GET` and `POST` methods for data retrieval and saving, with authentication handled via `DataTokenAuthHandler`, `TokenAuthHandler`, and `AuthHandler` depending on the endpoint.
 
 ---
 
@@ -10,7 +10,6 @@ This API provides endpoints for retrieving and managing price and market data fo
 - **Staging:** [`https://staging.priceblick.com/api/`](https://staging.priceblick.com/api/)
 - **Base Path:** `/<price_provider>/`
 
-For example: for SET the api is https://staging.priceblick.com/api/set/
 ---
 
 ## Authentication
@@ -105,7 +104,50 @@ The request body must be a **JSON array** of objects.
     }
   }
 ]
-```]
+```
+
+```python
+import requests
+
+# API endpoint
+url = "https://staging.priceblick.com/api/set/the_eur"
+
+# Auth token
+headers = {
+    "Content-Type": "application/json",
+    "X-Auth-Token": "your_api_token_here"
+}
+
+# Payload data
+payload = [
+    {
+        "contract": "DA",
+        "price": {"type": "bid", "value": 2.2}
+    },
+    {
+        "contract": "DA",
+        "price": {"type": "ask", "value": 2.3}
+    },
+    {
+        "contract": "CAL27",
+        "price": {"type": "bid", "value": 2.2}
+    },
+    {
+        "contract": "CAL27",
+        "price": {"type": "ask", "value": 2.3}
+    }
+]
+
+# Send POST request
+response = requests.post(url, headers=headers, json=payload)
+
+# Check response
+if response.status_code == 200:
+    print("✅ Success!")
+    print(response.json())
+else:
+    print(f"❌ Error {response.status_code}: {response.text}")
+```
 
 ## **Error Codes**
 
@@ -121,11 +163,17 @@ The request body must be a **JSON array** of objects.
 
 ### Endpoint for Trade Execution
 
+!!! note
+    For all endpoints on user level you will need to use your own user key
+
 | Endpoint      | Description              | Method  | Auth Handler         |
 |---------------|--------------------------|---------|----------------------|
 | `/saveorder`  | Create a new order       | POST    | API Key required     |
 | `/get_orders` | Get orders               | GET     | API Key required     |
 
+!!! warning
+    Order execution with the API is disabled by default. If you need this enabled for your
+    account, please contact priceblick admin.
 
 ### Other Endpoints
 
