@@ -40,8 +40,6 @@ print(response.json())
 
 ### GET Endpoints For THE, TTF and PEG Market Data
 
-### GET Endpoints For THE, TTF and PEG Market Data
-
 | Endpoint      | Description               | Method | Auth Handler         |
 |---------------|---------------------------|--------|----------------------|
 | `/the_eur`    | Get THE EUR data          | GET    | API Key required     |
@@ -58,6 +56,69 @@ print(response.json())
 | `/ttf_eur`    | Save TTF EUR data                  | POST   | API Key required     |
 | `/peg_eur`    | Save PEG EUR data                  | POST   | API Key required     |
 
+
+## **Request Body**
+
+The request body must be a **JSON array** of objects.
+
+### **Schema**
+
+| Field        | Type   | Required | Description                                |
+|-------------|--------|----------|--------------------------------------------|
+| contract    | string | Yes      | Name of the contract (`DA`, `CAL27`, etc.) |
+| price       | object | Yes      | Price details                             |
+| price.type  | string | Yes      | `bid` or `ask`                            |
+| price.value | float  | Yes      | Price value                               |
+
+---
+
+### **Example Request**
+
+```json
+[
+  {
+    "contract": "DA",
+    "price": {
+      "type": "bid",
+      "value": 2.2
+    }
+  },
+  {
+    "contract": "DA",
+    "price": {
+      "type": "ask",
+      "value": 2.3
+    }
+  },
+  {
+    "contract": "CAL27",
+    "price": {
+      "type": "bid",
+      "value": 2.2
+    }
+  },
+  {
+    "contract": "CAL27",
+    "price": {
+      "type": "ask",
+      "value": 2.3
+    }
+  }
+]
+```]
+
+## **Error Codes**
+
+| Status Code | Meaning                 | Possible Cause                  |
+|------------|------------------------|--------------------------------|
+| **200**    | Success               | Prices updated successfully   |
+| **400**    | Bad Request           | Missing or invalid fields     |
+| **401**    | Unauthorized          | Invalid or missing token      |
+| **403**    | Forbidden             | You don’t have permission     |
+| **404**    | Not Found            | Endpoint or resource missing  |
+| **500**    | Internal Server Error | Server-side issue            |
+| **503**    | Service Unavailable   | API temporarily down or overloaded |
+
 ### Endpoint for Trade Execution
 
 | Endpoint      | Description              | Method  | Auth Handler         |
@@ -70,10 +131,6 @@ print(response.json())
 
 | Endpoint                | Method | Description                 | Auth Handler         |
 |-------------------------|--------|-----------------------------|----------------------|
-| `/savepriceprofile`     | POST   | Save price profiles         | API Key required     |
-| `/getpriceprofile`      | GET    | Get price profiles          | API Key required     |
-| `/deletepriceprofile`   | POST   | Delete price profiles       | API Key required     |
-| `/buypriceprofile`      | POST   | Buy price profiles          | API Key required     |
 | `/getlimitorders`       | GET    | Get limit orders            | API Key required     |
 | `/setlimitorders`       | POST   | Set limit orders            | API Key required     |
 
