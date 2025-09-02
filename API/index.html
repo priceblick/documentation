@@ -647,6 +647,15 @@
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#schema_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      Schema
+    </span>
+  </a>
+  
+</li>
+        
       </ul>
     </nav>
   
@@ -858,6 +867,15 @@
   <a href="#other-endpoints" class="md-nav__link">
     <span class="md-ellipsis">
       Other Endpoints
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#schema_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      Schema
     </span>
   </a>
   
@@ -1211,6 +1229,127 @@ account, please contact priceblick admin.</p>
 </tr>
 </tbody>
 </table>
+<table>
+<thead>
+<tr>
+<th>Endpoint</th>
+<th>Method</th>
+<th>Description</th>
+<th>Auth Handler</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>/accounts</code></td>
+<td>GET</td>
+<td>Get all accounts</td>
+<td>API Key required</td>
+</tr>
+</tbody>
+</table>
+<p>Get all the accounts managed by this provider. These are the accounts you can trade with.</p>
+<table>
+<thead>
+<tr>
+<th>Endpoint</th>
+<th>Method</th>
+<th>Description</th>
+<th>Auth Handler</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>/account/&lt;account_uuid&gt;/users</code></td>
+<td>GET</td>
+<td>Get users for account</td>
+<td>API Key required</td>
+</tr>
+</tbody>
+</table>
+<p>Get all the users for a particular account (by its uuid). These are traders in the account.</p>
+<table>
+<thead>
+<tr>
+<th>Endpoint</th>
+<th>Method</th>
+<th>Description</th>
+<th>Auth Handler</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>/account/&lt;account_uuid&gt;/margin</code></td>
+<td>POST</td>
+<td>Set margin on account</td>
+<td>API Key required</td>
+</tr>
+</tbody>
+</table>
+<p>As a price provider you can set margins for each account. This endpoint allows you to se the margins.</p>
+<p>Set Margin Schema</p>
+<h3 id="schema_1"><strong>Schema</strong></h3>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>account_uuid</td>
+<td>string</td>
+<td>Yes</td>
+<td>Account UUID to set margin for</td>
+</tr>
+<tr>
+<td>margin</td>
+<td>float</td>
+<td>Yes</td>
+<td>numeric value for maring like 0.3</td>
+</tr>
+</tbody>
+</table>
+<div class="language-shell highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>curl<span class="w"> </span><span class="s2">&quot;https://staging.priceblick.com/api/set/account/&lt;account_uuid&gt;/margin&quot;</span><span class="w"> </span>-H<span class="w"> </span><span class="s2">&quot;X-Auth-Token: &lt;your api key&gt;&quot;</span><span class="w"> </span>-XPOST<span class="w"> </span>-d<span class="w"> </span><span class="s1">&#39;{&quot;margin&quot;:1, &quot;account_uuid&quot;: &quot;&lt;account_uuid&gt;&quot;}&#39;</span>
+</span></code></pre></div>
+<p>Marketplace Endpoints</p>
+<p>Market place allows individual traders to post there own bids and asks. Other market participants can then trade this order.
+Each market order placed on the open marketplace has a time to live (ttl) value after which the order expires and gets removed
+from the marketplace.</p>
+<table>
+<thead>
+<tr>
+<th>Endpoint</th>
+<th>Method</th>
+<th>Description</th>
+<th>Auth Handler</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>/get_market_bids_and_asks</code></td>
+<td>GET</td>
+<td>Get all market bids/ask</td>
+<td>API Key required</td>
+</tr>
+<tr>
+<td><code>/post_market_bid_and_ask</code></td>
+<td>POST</td>
+<td>Post a market bids/ask</td>
+<td>API Key required</td>
+</tr>
+<tr>
+<td><code>/delete_market_bid_ask</code></td>
+<td>DELETE</td>
+<td>Delete a market bids/ask</td>
+<td>API Key required</td>
+</tr>
+</tbody>
+</table>
+<p>The get_market_bids_and_asks endpoint allows you to fetch all market orders from individual traders. This endpoint is different from
+price provider specific /the_eur or /ttf_eur endpoint in that the trades here are open to all individual traders.</p>
 <hr />
 <h2 id="handlers">Handlers</h2>
 <p>Each endpoint is managed by a specific handler responsible for processing the request and returning the appropriate response. Refer to individual endpoint descriptions for details on required authentication and handler logic.</p>
