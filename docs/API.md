@@ -175,12 +175,60 @@ else:
     Order execution with the API is disabled by default. If you need this enabled for your
     account, please contact priceblick admin.
 
+
+
 ### Other Endpoints
 
-| Endpoint                | Method | Description                 | Auth Handler         |
-|-------------------------|--------|-----------------------------|----------------------|
-| `/getlimitorders`       | GET    | Get limit orders            | API Key required     |
-| `/setlimitorders`       | POST   | Set limit orders            | API Key required     |
+| Endpoint                         | Method | Description                 | Auth Handler         |
+|----------------------------------|--------|-----------------------------|----------------------|
+| `/getlimitorders`                | GET    | Get limit orders            | API Key required     |
+| `/setlimitorders`                | POST   | Set limit orders            | API Key required     |
+
+| Endpoint                         | Method | Description                 | Auth Handler         |
+|----------------------------------|--------|-----------------------------|----------------------|
+| `/accounts`                      | GET    | Get all accounts            | API Key required     |
+
+Get all the accounts managed by this provider. These are the accounts you can trade with.
+
+| Endpoint                         | Method | Description                 | Auth Handler         |
+|----------------------------------|--------|-----------------------------|----------------------|
+| `/account/<account_uuid>/users`  | GET    | Get users for account       | API Key required     |
+
+Get all the users for a particular account (by its uuid). These are traders in the account.
+
+| Endpoint                         | Method | Description                 | Auth Handler         |
+|----------------------------------|--------|-----------------------------|----------------------|
+| `/account/<account_uuid>/margin` | POST   | Set margin on account       | API Key required     |
+
+As a price provider you can set margins for each account. This endpoint allows you to se the margins.
+
+Set Margin Schema
+
+### **Schema**
+
+| Field        | Type   | Required | Description                                |
+|------------- |--------|----------|--------------------------------------------|
+| account_uuid | string | Yes      | Account UUID to set margin for             |
+| margin       | float  | Yes      | numeric value for maring like 0.3          |
+
+```shell
+curl "https://staging.priceblick.com/api/set/account/<account_uuid>/margin" -H "X-Auth-Token: <your api key>" -XPOST -d '{"margin":1, "account_uuid": "<account_uuid>"}'
+```
+
+Marketplace Endpoints
+
+Market place allows individual traders to post there own bids and asks. Other market participants can then trade this order.
+Each market order placed on the open marketplace has a time to live (ttl) value after which the order expires and gets removed
+from the marketplace.
+
+| Endpoint                         | Method | Description                 | Auth Handler         |
+|----------------------------------|--------|-----------------------------|----------------------|
+| `/get_market_bids_and_asks`      | GET    | Get all market bids/ask     | API Key required     |
+| `/post_market_bid_and_ask`       | POST   | Post a market bids/ask      | API Key required     |
+| `/delete_market_bid_ask`         | DELETE | Delete a market bids/ask    | API Key required     |
+
+The get_market_bids_and_asks endpoint allows you to fetch all market orders from individual traders. This endpoint is different from
+price provider specific /the_eur or /ttf_eur endpoint in that the trades here are open to all individual traders.
 
 ---
 
